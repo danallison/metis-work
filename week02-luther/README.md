@@ -1,3 +1,5 @@
+[slides](https://docs.google.com/presentation/d/1Q9vm8_euUB5_yiz2Dj0llD2f_hjApRNfK8K1sgIudPs/edit?usp=sharing)
+
 Data sources
 
-[USA_Population_of_States_US_Census_Intercensal_Tables_1917-2017](https://github.com/aaronpenne/data_visualization/blob/3d9e41a77cf00be6135e40d3fbb49a341a16af28/population/data/USA_Population_of_States_US_Census_Intercensal_Tables_1917-2017.csv)
+- [boxofficemojo.com](http://boxofficemojo.com)
