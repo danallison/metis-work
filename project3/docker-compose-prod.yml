@@ -7,9 +7,18 @@ services:
     command: flask run --host 0.0.0.0
     environment:
       - FLASK_APP=flask_app.py
+      - VIRTUAL_HOST
+      - VIRTUAL_PORT
+      - LETSENCRYPT_HOST
+      - LETSENCRYPT_EMAIL
     volumes:
       - .:/usr/src/app
     ports:
       - "5050:5000"
     depends_on:
       - db
+# https://github.com/evertramos/docker-compose-letsencrypt-nginx-proxy-companion
+networks:
+  default:
+    external:
+      name: webproxy
