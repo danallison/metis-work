@@ -8,3 +8,4 @@ secrets.py
 notes.txt
 ignored/
 week02-luther/movie_pages/
+\.env
