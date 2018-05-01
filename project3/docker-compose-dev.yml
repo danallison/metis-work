@@ -7,7 +7,6 @@ services:
     command: flask run --host 0.0.0.0
     environment:
       - FLASK_APP=flask_app.py
-      - 
     volumes:
       - .:/usr/src/app
     ports:
