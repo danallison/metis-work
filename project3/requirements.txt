@@ -4,3 +4,5 @@ pandas
 matplotlib
 pymc3
 flask
+sqlalchemy
+psycopg2

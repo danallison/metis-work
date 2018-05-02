@@ -2,11 +2,19 @@ version: '3'
 services:
   db:
     image: postgres
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - PGDATA
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data/pgdata
   flask_app:
     build: .
     command: flask run --host 0.0.0.0
     environment:
       - FLASK_APP=flask_app.py
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
     volumes:
       - .:/usr/src/app
     ports:
