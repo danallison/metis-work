@@ -8,6 +8,8 @@ services:
       - PGDATA
     volumes:
       - ./pgdata:/var/lib/postgresql/data/pgdata
+    ports:
+      - "5433:5432"
   flask_app:
     build: .
     command: flask run --host 0.0.0.0
