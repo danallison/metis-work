@@ -10,3 +10,4 @@ ignored/
 week02-luther/movie_pages/
 \.env
 pgdata/
+phishtank*.csv
