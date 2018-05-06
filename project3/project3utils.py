@@ -76,7 +76,10 @@ def get_features_from_url(url):
     features.update({
         'full_domain': full_domain,
         'domain': domain,
-        'subdomain': subdomain
+        'subdomain': subdomain,
+        'subdomain_is_www': int(subdomain == 'www'),
+        'https': int(url.scheme == 'https'),
+        'domain_is_raw_ip': int(len(domain) == (features['domain_digits'] + features['domain_char_dot']))
     })
     return features
 
