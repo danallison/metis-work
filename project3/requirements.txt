@@ -2,7 +2,8 @@ jupyter
 numpy
 pandas
 matplotlib
-pymc3
+scipy
+sklearn
 flask
 sqlalchemy
 psycopg2
