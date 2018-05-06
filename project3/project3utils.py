@@ -58,9 +58,10 @@ def get_domain_char_counts(string, key_prefix=''):
     counts[key_prefix + 'total_chars'] = len(string)
     return counts
 
+protocol_slices = set(('ftp://', 'http:/', 'https:'))
 def get_features_from_url(url):
     url = url.lower()
-    if url[0:7] not in ('http://', 'https:/'):
+    if url[0:6] not in protocol_slices:
         url = 'http://' + url
     url = urlparse(url)
     full_domain = url.netloc
