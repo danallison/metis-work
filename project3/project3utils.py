@@ -37,9 +37,16 @@ def get_features_from_url(url):
     url = urlparse(url)
     full_domain = url.netloc
     chunks = full_domain.split('.')
-    domain_start_index = -2
-    if chunks[-2] in sld_by_cc[chunks[-1]]:
-        domain_start_index -= 1
+    try:
+        for chunk in chunks:
+            int(chunk)
+        is_raw_ip = 1
+        domain_start_index = 0
+    except:
+        is_raw_ip = 0
+        domain_start_index = -2
+        if chunks[-2] in sld_by_cc[chunks[-1]]:
+            domain_start_index -= 1
     domain = '.'.join(chunks[domain_start_index:])
     subdomain = '.'.join(chunks[:domain_start_index])
     path = url.path
@@ -55,8 +62,9 @@ def get_features_from_url(url):
         'path': path,
         'domain_is_dot_com': int(chunks[-1] == 'com'),
         'subdomain_is_www': int(subdomain == 'www'),
+        'path_ends_in_php': int(path[-4:] == '.php'),
         'https': int(url.scheme == 'https'),
-        'domain_is_raw_ip': int(len(domain) == (features['domain_digits'] + features['domain_char_dot']))
+        'domain_is_raw_ip': is_raw_ip
     })
     return features
 
