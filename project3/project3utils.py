@@ -44,8 +44,8 @@ def get_features_from_url(url):
         domain_start_index = 0
     except:
         is_raw_ip = 0
-        domain_start_index = -2
-        if chunks[-2] in sld_by_cc[chunks[-1]]:
+        domain_start_index = -1 * min(2, len(chunks))
+        if domain_start_index == -2 and chunks[-2] in sld_by_cc[chunks[-1]]:
             domain_start_index -= 1
     domain = '.'.join(chunks[domain_start_index:])
     subdomain = '.'.join(chunks[:domain_start_index])
