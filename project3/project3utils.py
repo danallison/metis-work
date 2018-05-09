@@ -20,6 +20,7 @@ char_label_map = {
 def get_char_count_label(char):
     return 'char_' + char_label_map.get(char, char)
 
+keywords = ('signin','login','secur','paypal','verif','billing','recover','account')
 def get_char_counts(string, key_prefix=''):
     counter = Counter(string)
     counts = {(key_prefix + get_char_count_label(c)): counter[c] for c in all_chars}
@@ -30,6 +31,9 @@ def get_char_counts(string, key_prefix=''):
     counts[key_prefix + 'total_chars'] = total_chars
     counts[key_prefix + 'empty_string'] = int(total_chars == 0)
     counts[key_prefix + 'entropy'] = entropy(list(counter.values()))
+    for keyword in keywords:
+        # Just treating these as booleans for now
+        counts[key_prefix + 'keyword_' + keyword] = int(keyword in string)
     return counts
 
 def get_features_from_url(url):
@@ -46,7 +50,7 @@ def get_features_from_url(url):
         is_raw_ip = 0
         domain_start_index = -1 * min(2, len(chunks))
         if domain_start_index == -2 and chunks[-2] in sld_by_cc[chunks[-1]]:
-            domain_start_index -= 1
+            domain_start_index = -3
     domain = '.'.join(chunks[domain_start_index:])
     subdomain = '.'.join(chunks[:domain_start_index])
     path = url.path
@@ -81,3 +85,9 @@ for key, val in get_features_from_url('http://www.blah.com/foo').items():
             path_feature_columns.append(key)
         else:
             nonpath_feature_columns.append(key)
+
+def url_as_vector(url):
+    vec = [0] * 64
+    for i in range(min(len(url), len(vec))):
+        vec[i] = ord(url[i])
+    return vec
