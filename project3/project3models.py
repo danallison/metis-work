@@ -24,11 +24,12 @@ def get_models():
 def print_model_stats(model, name, X_test, y_test):
     reload(project3viz)
     predictions = model.predict(X_test)
+    probabilities = model.predict_proba(X_test)[:,1]
     acc = round(accuracy_score(y_test, predictions), 2)
     print('============= {} ============='.format(name))
     print("Accuracy: {}".format(acc))
     print(classification_report(y_test, predictions))
-    project3viz.plot_roc_curve(y_test, predictions)
+    project3viz.plot_roc_curve(y_test, probabilities)
 
 def train_models(data=None, names=None, callback=None):
     if data is None: data = get_training_data()

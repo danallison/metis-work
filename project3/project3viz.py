@@ -6,7 +6,7 @@ from sklearn.metrics import roc_curve, auc
 def plot_roc_curve(y_test, y_score):
     # From http://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html#sphx-glr-auto-examples-model-selection-plot-roc-py
     # Compute ROC curve and ROC area for each class
-    fpr, tpr, _ = roc_curve(y_test, y_score)
+    fpr, tpr, thresh = roc_curve(y_test, y_score)
     roc_auc = auc(fpr, tpr)
 
     # Plot
@@ -19,6 +19,6 @@ def plot_roc_curve(y_test, y_score):
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title('Receiver operating characteristic example')
+    plt.title('ROC')
     plt.legend(loc="lower right")
     plt.show()

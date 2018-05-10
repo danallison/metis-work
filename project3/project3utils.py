@@ -21,7 +21,7 @@ char_label_map = {
 def get_char_count_label(char):
     return 'char_' + char_label_map.get(char, char)
 
-keywords = ('signin','login','secur','paypal','verif','billing','recover','account')
+# keywords = ('signin','login','secur','paypal','verif','billing','recover','account')
 def get_char_counts(string, key_prefix=''):
     counter = Counter(string)
     counts = {(key_prefix + get_char_count_label(c)): counter[c] for c in all_chars}
@@ -32,9 +32,9 @@ def get_char_counts(string, key_prefix=''):
     counts[key_prefix + 'total_chars'] = total_chars
     counts[key_prefix + 'empty_string'] = int(total_chars == 0)
     counts[key_prefix + 'entropy'] = entropy(list(counter.values()))
-    for keyword in keywords:
-        # Just treating these as booleans for now
-        counts[key_prefix + 'keyword_' + keyword] = int(keyword in string)
+    # for keyword in keywords:
+    #     # Keywords seem not to matter that much
+    #     counts[key_prefix + 'keyword_' + keyword] = int(keyword in string)
     return counts
 
 def get_features_from_url(url):
