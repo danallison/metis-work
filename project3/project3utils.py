@@ -8,14 +8,15 @@ alphabet = 'abcdefghijklmnopqrstuvwxyz'
 vowels = 'aeiou'
 consonants = [char for char in alphabet if char not in vowels]
 digits = '0123456789'
-other_chars = '.-/:_'
+other_chars = '.-/:_@'
 all_chars = alphabet + digits + other_chars
 char_label_map = {
     '.': 'dot',
     '-': 'hyphen',
     '/': 'slash',
     ':': 'colon',
-    '_': 'underscore'
+    '_': 'underscore',
+    '@': 'at'
 }
 def get_char_count_label(char):
     return 'char_' + char_label_map.get(char, char)
