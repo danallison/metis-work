@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from sqlalchemy import create_engine
 from sklearn.externals import joblib
 
@@ -15,16 +15,17 @@ sql_engine = create_engine('postgresql://{user}:{password}@{host}:{port}/{user}'
 model = joblib.load('model.pkl')
 
 @app.route('/')
-def hello():
-    with sql_engine.connect() as connection:
-        id, key, val = connection.execute(
-            'select * from foo limit 1'
-        ).fetchone()
-    return '<h1>Hi, World!</h1><p>{}:{}:{}</p>'.format(id, key, val)
+def root():
+    return app.send_static_file('index.html')
 
 @app.route('/predict')
 def predict():
     url = request.args.get('url')
     if not url: return 'Must supply a valid URL'
-    features = project3utils.get_numeric_features_list_from_url(url)
-    return str(model.predict_proba([features])[0][1])
+    features = project3utils.get_features_from_url(url)
+    model_input = [[features[c] for c in project3utils.numeric_feature_columns]]
+    response = {
+        'prediction': model.predict_proba(model_input)[0,1],
+        'features': features
+    }
+    return jsonify(response)

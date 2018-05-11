@@ -22,7 +22,7 @@ def get_models():
     return {name: joblib.load('{}.pkl'.format(name)) for name in model_names}
 
 def print_model_stats(model, name, X_test, y_test):
-    reload(project3viz)
+    # reload(project3viz)
     predictions = model.predict(X_test)
     probabilities = model.predict_proba(X_test)[:,1]
     acc = round(accuracy_score(y_test, predictions), 2)
