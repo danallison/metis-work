@@ -40,3 +40,13 @@ def with_remote_sql_session(function):
         tunnel.start()
         engine = get_engine_for_port(tunnel.local_bind_port)
         return with_sql_session(function, engine=engine)
+
+def local_sql_session(function):
+    def wrapper():
+        with_local_sql_session(function)
+    return wrapper
+
+def remote_sql_session(function):
+    def wrapper():
+        with_remote_sql_session(function)
+    return wrapper
