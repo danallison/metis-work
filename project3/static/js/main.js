@@ -36,16 +36,19 @@
       messageEl.innerHTML = 'Input must be a valid URL.'
     }
   };
+  var debouncedUpdate = _.debounce(updateMessage, 1000);
 
   var progressBarHTML = '<div class="progress"><div class="indeterminate"></div></div>';
-  urlInputEl.addEventListener('keydown', function () {
+  var showProgressBar = function () {
     var url = _.trim(urlInputEl.textContent);
     if (url != currentURL && messageEl.innerHTML != progressBarHTML) {
       messageEl.innerHTML = progressBarHTML;
     }
-  });
+  };
+  var inputChangeHandler = _.flow(showProgressBar, debouncedUpdate);
+  urlInputEl.addEventListener('paste', inputChangeHandler);
+  urlInputEl.addEventListener('keyup', inputChangeHandler);
 
-  urlInputEl.addEventListener('keyup', _.debounce(updateMessage, 1000));
-
+  urlInputEl.textContent = window.location.href;
   updateMessage();
 })();
