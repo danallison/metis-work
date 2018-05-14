@@ -29,7 +29,7 @@ def print_model_stats(model, name, X_test, y_test):
     print('============= {} ============='.format(name))
     print("Accuracy: {}".format(acc))
     print(classification_report(y_test, predictions))
-    project3viz.plot_roc_curve(y_test, probabilities)
+    project3viz.plot_roc_curve(y_test, probabilities, '{}_roc_curve.png'.format(name))
 
 def train_models(data=None, names=None, callback=None):
     if data is None: data = get_training_data()

@@ -19,18 +19,35 @@
 
   var updateMessage = function () {
     var url = _.trim(urlInputEl.textContent);
-    console.log(url);
     if (urlFinder.isUrl(url)) {
       currentURL = url;
       fetchPredictions(url).then(function (response) {
         messageEl.innerHTML = [
-          'prediction: ' + response.prediction,
-          'domain-based prediction: ' + response.domain_prediction,
-          'path-based prediction: ' + response.path_prediction
+          'overall phishy-ness: <b>' + _.round(response.prediction, 3) + '</b>',
+          'phishy-ness of host: <b>' + _.round(response.domain_prediction, 3) + '</b>',
+          'phishy-ness of path: <b>' + _.round(response.path_prediction, 3) + '</b>'
         ].join('<br/>');
-        propsTableEl.innerHTML = props.map(function (key) {
-          return '<tr><td>' + key + '</td><td>' + response.features[key] + '</td></tr>';
-        }).join('');
+        getRank(response.features).then(function (rank) {
+          var sortedFeatures = _.sortBy(_.keys(response.features), function (key) {
+            if (!rank[key]) return -Infinity;
+            return -Math.abs(rank[key][0] - rank[key][1]);
+          });
+          propsTableEl.innerHTML = sortedFeatures.map(function (key) {
+            if (!rank[key]) return '';
+            var phishingPercentile = rank[key][0] || 0.99;
+            var nonphishingPercentile = rank[key][1] || 0.99;
+            var phishingFontSize = 'style="font-size:' + (10 + 36 * phishingPercentile) + 'px;' +
+              'font-weight: ' + (phishingPercentile > nonphishingPercentile ? 500 : 300) + ';"';
+            var nonphishingFontSize = 'style="font-size:' + (10 + 36 * nonphishingPercentile) + 'px;' +
+              'font-weight: ' + (phishingPercentile < nonphishingPercentile ? 500 : 300) + ';"';
+            return '<tr>' +
+              '<td>' + key + '</td>' +
+              '<td>' + response.features[key] + '</td>' +
+              '<td '+ phishingFontSize + '>' + phishingPercentile + '</td>' +
+              '<td '+ nonphishingFontSize + '>' + nonphishingPercentile + '</td>' +
+            '</tr>';
+          }).join('');
+        });
       });
     } else {
       messageEl.innerHTML = 'Input must be a valid URL.'

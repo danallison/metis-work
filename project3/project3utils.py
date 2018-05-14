@@ -1,3 +1,4 @@
+import numpy as np
 from urllib.parse import urlparse
 from collections import Counter
 from scipy.stats import entropy
@@ -21,15 +22,19 @@ char_label_map = {
 def get_char_count_label(char):
     return 'char_' + char_label_map.get(char, char)
 
+def noise():
+    # return np.random.laplace(scale=1)
+    return 0
+
 # keywords = ('signin','login','secur','paypal','verif','billing','recover','account')
 def get_char_counts(string, key_prefix=''):
     counter = Counter(string)
-    counts = {(key_prefix + get_char_count_label(c)): counter[c] for c in all_chars}
-    counts[key_prefix + 'vowels'] = sum(counter[c] for c in vowels)
-    counts[key_prefix + 'consonants'] = sum(counter[c] for c in consonants)
-    counts[key_prefix + 'digits'] = sum(counter[c] for c in digits)
+    counts = {(key_prefix + get_char_count_label(c)): (counter[c] + noise()) for c in all_chars}
+    counts[key_prefix + 'vowels'] = sum(counter[c] + noise() for c in vowels)
+    counts[key_prefix + 'consonants'] = sum(counter[c] + noise() for c in consonants)
+    counts[key_prefix + 'digits'] = sum(counter[c] + noise() for c in digits)
     total_chars = len(string)
-    counts[key_prefix + 'total_chars'] = total_chars
+    counts[key_prefix + 'total_chars'] = total_chars + noise()
     counts[key_prefix + 'empty_string'] = int(total_chars == 0)
     counts[key_prefix + 'entropy'] = entropy(list(counter.values()))
     # for keyword in keywords:

@@ -3,10 +3,16 @@
 <head>
   <title>Phishing URL Predictor</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" integrity="sha384-DAc6nHMUh2XU+dV5ycsLO8AB/nZZe46b+VPMvzjC6N977FGl6/TQ/r3fbj59fEJm" crossorigin="anonymous">
+  <style>
+  body {
+    background-color: #efefef;
+  }
+  </style>
 </head>
 <body>
   <div id="main-container" class="container">
     <h1>Phishing Predictor</h1>
+    <div>Enter a URL in the input below to get its phishy-ness scores.</div>
     <div>
     	<div id="url-input" contenteditable="true"  class="card-panel"></div>
     </div>
@@ -16,6 +22,8 @@
         <tr>
           <th>property</th>
           <th>value</th>
+          <th>phishing percentile</th>
+          <th>non-phishing percentile</th>
         </tr>
       </thead>
       <tbody id="properties-table-body">
@@ -25,6 +33,7 @@
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js" integrity="sha384-mSSBMtpZHKT74w/c7tDbXmJJtqdlb1lR+PmokfXQwMXWVEWpxD08EA9Ymb+9PpIK" crossorigin="anonymous"></script>
   <script src="https://d3js.org/d3.v4.min.js" integrity="sha384-1EOYqz4UgZkewWm70NbT1JBUXSQpOIS2AaJy6/evZH+lXOrt9ITSJbFctNeyBoIJ" crossorigin="anonymous"></script>
   <script src="/static/js/utils.js"></script>
+  <script src="/static/js/percentile_chart.js"></script>
   <script src="/static/js/main.js"></script>
 </body>
 </html>
