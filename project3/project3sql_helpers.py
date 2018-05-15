@@ -43,10 +43,10 @@ def with_remote_sql_session(function):
 
 def local_sql_session(function):
     def wrapper():
-        with_local_sql_session(function)
+        return with_local_sql_session(function)
     return wrapper
 
 def remote_sql_session(function):
     def wrapper():
-        with_remote_sql_session(function)
+        return with_remote_sql_session(function)
     return wrapper
