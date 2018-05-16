@@ -22,24 +22,16 @@ char_label_map = {
 def get_char_count_label(char):
     return 'char_' + char_label_map.get(char, char)
 
-def noise():
-    # return np.random.laplace(scale=1)
-    return 0
-
-# keywords = ('signin','login','secur','paypal','verif','billing','recover','account')
 def get_char_counts(string, key_prefix=''):
     counter = Counter(string)
-    counts = {(key_prefix + get_char_count_label(c)): (counter[c] + noise()) for c in all_chars}
-    counts[key_prefix + 'vowels'] = sum(counter[c] + noise() for c in vowels)
-    counts[key_prefix + 'consonants'] = sum(counter[c] + noise() for c in consonants)
-    counts[key_prefix + 'digits'] = sum(counter[c] + noise() for c in digits)
+    counts = {(key_prefix + get_char_count_label(c)): counter[c] for c in all_chars}
+    counts[key_prefix + 'vowels'] = sum(counter[c] for c in vowels)
+    counts[key_prefix + 'consonants'] = sum(counter[c] for c in consonants)
+    counts[key_prefix + 'digits'] = sum(counter[c] for c in digits)
     total_chars = len(string)
-    counts[key_prefix + 'total_chars'] = total_chars + noise()
+    counts[key_prefix + 'total_chars'] = total_chars
     counts[key_prefix + 'empty_string'] = int(total_chars == 0)
     counts[key_prefix + 'entropy'] = entropy(list(counter.values()))
-    # for keyword in keywords:
-    #     # Keywords seem not to matter that much
-    #     counts[key_prefix + 'keyword_' + keyword] = int(keyword in string)
     return counts
 
 def get_features_from_url(url):
@@ -91,9 +83,3 @@ for key, val in get_features_from_url('http://www.blah.com/foo').items():
             path_feature_columns.append(key)
         else:
             nonpath_feature_columns.append(key)
-
-def url_as_vector(url):
-    vec = [0] * 64
-    for i in range(min(len(url), len(vec))):
-        vec[i] = ord(url[i])
-    return vec
