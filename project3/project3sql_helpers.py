@@ -1,6 +1,7 @@
 from sshtunnel import SSHTunnelForwarder
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from functools import wraps
 
 # secrets.py contains credentials, etc.
 import secrets
@@ -14,21 +15,21 @@ def get_engine_for_port(port):
         db=secrets.pg_user
     ))
 
-def with_sql_session(function, engine=None):
+def with_sql_session(function, args, kwargs, engine=None):
     if engine is None:
         # Default to local port
         engine = get_engine_for_port(5433)
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
-        return function(session)
+        return function(session, *args, **kwargs)
     finally:
         session.close()
 
-def with_local_sql_session(function):
-    return with_sql_session(function)
+def with_local_sql_session(function, *args, **kwargs):
+    return with_sql_session(function, args, kwargs)
 
-def with_remote_sql_session(function):
+def with_remote_sql_session(function, *args, **kwargs):
     # Hat tip: https://stackoverflow.com/a/38001815
     with SSHTunnelForwarder(
             (secrets.server_ip_address, 22),
@@ -39,14 +40,16 @@ def with_remote_sql_session(function):
         ) as tunnel:
         tunnel.start()
         engine = get_engine_for_port(tunnel.local_bind_port)
-        return with_sql_session(function, engine=engine)
+        return with_sql_session(function, args, kwargs, engine=engine)
 
 def local_sql_session(function):
-    def wrapper():
-        return with_local_sql_session(function)
+    @wraps(function)
+    def wrapper(*args, **kwargs):
+        return with_local_sql_session(function, *args, **kwargs)
     return wrapper
 
 def remote_sql_session(function):
-    def wrapper():
-        return with_remote_sql_session(function)
+    @wraps(function)
+    def wrapper(*args, **kwargs):
+        return with_remote_sql_session(function, *args, **kwargs)
     return wrapper
