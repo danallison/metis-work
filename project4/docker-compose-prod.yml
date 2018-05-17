@@ -13,6 +13,11 @@ services:
       - 8890:8888
     volumes:
       - ./jupyter:/usr/src/app
+    environment:
+      - VIRTUAL_HOST
+      - VIRTUAL_PORT
+      - LETSENCRYPT_HOST
+      - LETSENCRYPT_EMAIL
     depends_on:
       - mongo
 # https://github.com/evertramos/docker-compose-letsencrypt-nginx-proxy-companion
