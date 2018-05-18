@@ -6,3 +6,6 @@ scipy
 sklearn
 pymc3
 pymongo
+requests
+requests_oauthlib
+cnfg
