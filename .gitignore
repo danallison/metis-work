@@ -1,15 +1,15 @@
 .DS_Store
 
+ignored/
 \.ipynb_checkpoints/
 __pycache__/
-
-secrets.py
-*/secrets.py
-notes.txt
-ignored/
 week02-luther/movie_pages/
-\.env
 pgdata/
-phishtank*.csv
+mongo_volume/
 
+\.env
 \.twitter_config
+secrets.py
+
+notes.txt
+phishtank*.csv
