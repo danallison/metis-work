@@ -6,6 +6,7 @@ __pycache__/
 week02-luther/movie_pages/
 pgdata/
 mongo_volume/
+project4/jupyter/data/
 
 \.env
 \.twitter_config
