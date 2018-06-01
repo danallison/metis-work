@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Decade Predictor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" integrity="sha384-DAc6nHMUh2XU+dV5ycsLO8AB/nZZe46b+VPMvzjC6N977FGl6/TQ/r3fbj59fEJm" crossorigin="anonymous">
+  <style>
+  #image-display {
+    width: 100%;
+  }
+  </style>
+</head>
+<body>
+  <div id="main-container" class="container">
+    <h1>Decade Predictor</h1>
+    <div>Enter an event description to get a prediction.</div>
+    <div>
+    	<div id="description-input" contenteditable="true"  class="card-panel"></div>
+    </div>
+    <div id="progress-container"></div>
+    <img id="image-display" src="/predict?text=hello">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js" integrity="sha384-mSSBMtpZHKT74w/c7tDbXmJJtqdlb1lR+PmokfXQwMXWVEWpxD08EA9Ymb+9PpIK" crossorigin="anonymous"></script>
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
